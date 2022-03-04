@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko" color-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MountainView</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Poor+Story&display=swap" rel="stylesheet">
+
+    <!--    CSS -->
+    <link rel="stylesheet" href="/static/css/index.css">
+    <!--    Jquery -->
+    <script src="/static/js/jquery-3.6.0.min.js"></script>
+    <!--    Kakao Map -->
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{kakaomap}}}&libraries=services,clusterer,drawing"></script>
+</head>
+<body>
+<div class="main-container flex-row">
+    <div class="side-navi flex-column">
+        <a href="/" class="logo">MountainView</a>
+        <div class="flex-row">
+            <a href="/">산 찾기</a>
+        </div>
+
+    </div>
+    <div class="main-contents flex-row">
+        <div class="flex-column">
+            <div class="flex-row input-container">
+                <label for="find-mtn"></label>
+                <input id="find-mtn" type="text" name="findMtn" placeholder="산명을 입력해주세요">
+                <button class="positive-btn" style="width: 100px" onclick="setMountain()">검색하기</button>
+            </div>
+            <div class="map-wrap">
+                <div id="map"></div>
+                <button id="my-position-btn" class="positive-btn btn-40-40" onclick="moveMyPosition()">내 위치</button>
+            </div>
+        </div>
+
+        <div id="mountain-list" class="flex-column list-container" style="justify-content: start!important; height: 70vh!important;">
+            <h1>검색 결과</h1>
+        </div>
+    </div>
+</div>
+<script src="/static/js/map.js"></script>
+<script src="/static/js/user.js"></script>
+
+<script>
+    loginHandler();
+    function loginHandler() {
+        let side_navi = $('.side-navi');
+        let navi_element;
+        if(window.localStorage.getItem('29_login') !== null) {
+            navi_element = `
+                <div class="flex-row">
+                    <a href="/mypage">마이페이지</a>
+                </div>
+                <button class="negative-btn" onclick="userLogout()">로그아웃</button>
+            `
+        }else {
+            navi_element = `
+                <a href="login">
+                    <button class="positive-btn">로그인</button>
+                </a>
+            `
+        }
+        side_navi.append(navi_element);
+    }
+</script>
+</body>
+</html>

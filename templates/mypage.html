@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko" color-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MountainView</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Poor+Story&display=swap" rel="stylesheet">
+
+    <!--    CSS -->
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/mypage.css">
+    <link rel="stylesheet" href="/static/css/login.css">
+    <!--    Jquery -->
+    <script src="/static/js/jquery-3.6.0.min.js"></script>
+    <!--    Kakao Map -->
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0d9d093d51b30a990dd9be3a96f630ff&libraries=services,clusterer,drawing"></script>
+    <!--    script -->
+    <script src="/static/js/register.js"></script>
+    <script src="/static/js/user.js"></script>
+</head>
+<body>
+<div class="main-container flex-row">
+    <div class="side-navi flex-column">
+        <a href="/" class="logo">MountainView</a>
+        <div class="flex-row">
+            <a href="/">산 찾기</a>
+        </div>
+        <div class="flex-row">
+            <a href="/mypage">마이페이지</a>
+        </div>
+        <button class="negative-btn" onclick="userLogout()">로그아웃</button>
+    </div>
+    <div class="main-contents flex-row">
+        <div class="flex-column mypage-container">
+            <h1>회원정보수정</h1>
+            <div class="input-box">
+                <input id="userId" type="text" name="userId" placeholder="아이디" readonly>
+                <label for="userId">아이디</label>
+            </div>
+            <div class="input-box">
+                <input id="userPassword" type="password" name="userPassword" placeholder="비밀번호">
+                <label for="userPassword">비밀번호</label>
+            </div>
+            <div class="input-box">
+                <input id="checkPassword" type="password" name="checkPassword" placeholder="비밀번호 확인" onblur="checkPassword()">
+                <label for="checkPassword">비밀번호 확인</label>
+            </div>
+            <div class="register-text flex-column">
+                <span id="pw_notify"></span>
+            </div>
+            <div class="input-box">
+                <input id="userBirth" type="number" name="userBirth" placeholder="나이" required>
+                <label for="userBirth">나이</label>
+            </div>
+            <div class="input-box">
+                <input id="userNickname" type="text" name="userNickname" placeholder="닉네임" required>
+                <label for="userNickname">닉네임</label>
+            </div>
+            <button class="positive-btn" style="margin-top: 20px" onclick="userUpdate()">회원정보수정</button>
+        </div>
+        <div class="flex-column mypage-container" style="justify-content: start!important;">
+            <h1>내가 쓴 댓글</h1>
+            <div class="content-card flex-row-start">
+                <div class="flex-column-start">
+                    <h3>댓글제목</h3>
+                    <div class="comment">댓글내용입니다람쥐</div>
+                </div>
+                <button class="negative-btn btn-40-40 content-icon">삭제</button>
+            </div>
+        </div>
+        <div class="flex-column mypage-container" style="justify-content: start!important;">
+            <h1>즐겨찾기</h1>
+            <div class="content-card flex-row-start">
+                <div class="flex-column-start">
+                    <h3>산이름</h3>
+                    <div class="comment">산주소</div>
+                </div>
+                <button class="positive-btn btn-40-40 content-icon">지도</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    init();
+    function init() {
+        let user = JSON.parse(window.localStorage.getItem('29_login'))
+        console.log(user)
+        $('#userId').val(user['id']);
+        $('#userBirth').val(user['birth']);
+        $('#userNickname').val(user['nickname']);
+    }
+</script>
+
+</body>
+</html>
