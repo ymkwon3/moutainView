@@ -1,14 +1,13 @@
 function userLogin() {
     let userId = $('#userId').val();
     let userPassword = $('#userPassword').val();
-    console.log(userId, userPassword)
     //uncaught RangeError: Maximum call stack size exceeded 에러 오지게뜸...
     $.ajax({
         type: 'POST',
         url: '/user/login',
         data: {id_give: userId, password_give: userPassword},
         success: function(response) {
-            if(response['msg'] == 'success'){
+            if(response['msg'] === 'success'){
                 window.localStorage.setItem('29_login', JSON.stringify(response['data']));
                 window.location.href ='/'
             }else {
@@ -59,6 +58,23 @@ function userUpdate() {
             alert(response['msg'])
             window.localStorage.setItem('29_login', JSON.stringify(response['data']));
             window.location.reload()
+        }
+    })
+}
+
+function setFavorite(param, location) {
+    let user = JSON.parse(window.localStorage.getItem('29_login'));
+    $.ajax({
+        type: "POST",
+        url: "/user/favorite",
+        data: {id_give: user['id'], favorite_give: param},
+        success: function(response) {
+            window.localStorage.setItem('29_login', JSON.stringify(response['data']));
+            alert(response['msg'])
+            if(location === 'main')
+                setMountain();
+            else if(location === 'mypage')
+                window.location.reload();
         }
     })
 }

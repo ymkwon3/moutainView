@@ -253,3 +253,24 @@ button:hover {
     width: 250px;
     height: 50px;
 }
+
+.favorite_icon {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+
+    cursor: pointer;
+    user-select: none;
+    transition: 0.05s;
+}
+
+.favorite_icon:hover {
+    transform: scale(1.1);
+}
+
+.address {
+    width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

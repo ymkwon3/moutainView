@@ -15,7 +15,7 @@
     <script src="/static/js/jquery-3.6.0.min.js"></script>
     <!--    Kakao Map -->
     <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{kakaomap}}}&libraries=services,clusterer,drawing"></script>
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{kakaomap}}&libraries=services,clusterer,drawing"></script>
 </head>
 <body>
 <div class="main-container flex-row">
@@ -44,9 +44,8 @@
         </div>
     </div>
 </div>
-<script src="/static/js/map.js"></script>
 <script src="/static/js/user.js"></script>
-
+<script src="/static/js/map.js"></script>
 <script>
     loginHandler();
     function loginHandler() {
@@ -67,6 +66,11 @@
             `
         }
         side_navi.append(navi_element);
+
+        let mName = new URLSearchParams(location.search).get('mName');
+        if(mName !== null) {
+            setMountain(mName);
+        }
     }
 </script>
 </body>

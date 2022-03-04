@@ -63,13 +63,17 @@ function getLocation() {
     })
 }
 
-function setMountain() {
+// 입력값으로 함수 실행
+function setMountain(m) {
     // 실행 전 마커 리스트와, 인포윈도우 리스트를 초기화 시켜줍니다.
     init();
-
     // 산 이름 받기
-    keyword = $('#find-mtn').val();
-
+    if (m === undefined)
+        keyword = $('#find-mtn').val();
+    else {
+        keyword = m;
+        $('#find-mtn').val(keyword)
+    }
     // 키워드 검색
     const ps = new kakao.maps.services.Places();
     ps.keywordSearch(keyword, placesSearchCB);
@@ -89,12 +93,7 @@ function placesSearchCB(data) {
                 y = data[i]['y'];
             let pos = new kakao.maps.LatLng(y, x);
 
-            // 주소 만들기
-            let address_first = data[i]['address_name'].split(' ')[0].substr(0, 2)
-            let address_second = data[i]['address_name'].split(' ')[1];
-
-            // const addr = address_first.concat(' ', address_second)
-            const addr = data[i]['address_name'];
+            let addr = data[i]['address_name'];
 
             let marker = new kakao.maps.Marker({
                 position: pos
@@ -129,20 +128,36 @@ function placesSearchCB(data) {
             kakao.maps.event.addListener(marker, 'click', makeOverListener(map, marker, infowindow, pivot, path));
             infoWindows.push(infowindow);
 
-            temp_html = ` 
-                <div class="content-card flex-row-start" onclick="mountainInfo('s')">
-                    <div class="flex-column-start">
+            temp_html =
+                `<div class="content-card flex-row-start" onclick="mountainInfo('s')">`;
+
+            // 로그인이 됐을 경우
+            if (window.localStorage.getItem('29_login') !== null) {
+                let user = JSON.parse(window.localStorage.getItem('29_login'));
+                let param = keyword + " " + addr;
+
+                // 즐겨찾기 항목에 해당 산이 존재 할 경우
+                if (user['favorite'].find(p => p === param)) {
+                    temp_html += `<img alt="즐겨찾기" src="/static/img/favorite_checked.png" class="favorite_icon" onclick="setFavorite('${param}', 'main'); event.stopPropagation()">`
+                } else {
+                    temp_html += `<img alt="즐겨찾기" src="/static/img/favorite_normal.png" class="favorite_icon" onclick="setFavorite('${param}', 'main'); event.stopPropagation()">`
+                }
+            }
+
+            temp_html +=
+                `<div class="flex-column-start">
                         <h3>${keyword}</h3>
-                        <div class="comment">${addr}</div>
+                        <div class="address">${addr}</div>
                     </div>
                     <button class="positive-btn btn-40-40 content-icon" onclick="moveMap(${x}, ${y})">지도</button>
                 </div>`
+
             list.append(temp_html);
         }
     }
 
     // 검색결과가 없을 경우입니다.
-    if(list.children().length === 1) {
+    if (list.children().length === 1) {
         temp_html = ` 
             <div class="content-card">
                 검색 결과가 없습니다람쥐!

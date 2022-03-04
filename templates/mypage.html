@@ -72,15 +72,8 @@
                 <button class="negative-btn btn-40-40 content-icon">삭제</button>
             </div>
         </div>
-        <div class="flex-column mypage-container" style="justify-content: start!important;">
+        <div id="favorite" class="flex-column mypage-container" style="justify-content: start!important;">
             <h1>즐겨찾기</h1>
-            <div class="content-card flex-row-start">
-                <div class="flex-column-start">
-                    <h3>산이름</h3>
-                    <div class="comment">산주소</div>
-                </div>
-                <button class="positive-btn btn-40-40 content-icon">지도</button>
-            </div>
         </div>
 
     </div>
@@ -90,10 +83,33 @@
     init();
     function init() {
         let user = JSON.parse(window.localStorage.getItem('29_login'))
-        console.log(user)
         $('#userId').val(user['id']);
         $('#userBirth').val(user['birth']);
         $('#userNickname').val(user['nickname']);
+
+        for (let i = 0; i < user['favorite'].length; i++) {
+            let s = user['favorite'][i];
+            let index = s.indexOf(' ');
+            let splits = [s.slice(0, index), s.slice(index+1)];
+            let param = splits[0] + " " + splits[1];
+
+            temp_html =
+            `
+            <div class="content-card flex-row-start">
+                <img alt="즐겨찾기" src="/static/img/favorite_checked.png" class="favorite_icon" onclick="setFavorite('${param}', 'mypage'); event.stopPropagation();">
+                <div class="flex-column-start">
+                    <h3>${splits[0]}</h3>
+                    <div class="comment">${splits[1]}</div>
+                </div>
+                <button class="positive-btn btn-40-40 content-icon" onclick="goMain('${splits[0]}')">지도</button>
+            </div>
+            `
+            $('#favorite').append(temp_html);
+        }
+    }
+
+    function goMain(mName) {
+        window.location.href = '/?mName=' + mName;
     }
 </script>
 

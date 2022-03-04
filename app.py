@@ -43,7 +43,7 @@ def mypage():
 
 
 # ---------- Ajax 요청 ---------- #
-# 아이디 중복체크
+# 아이디 중복 체크
 @app.route('/register/checkDup', methods=["POST"])
 def checkDup():
     id_receive = request.form['id_give']
@@ -52,6 +52,7 @@ def checkDup():
         if user['id'] == id_receive:
             return jsonify({'msg': '이미 존재하는 아이디 입니다!!'})
     return jsonify({'msg': '사용 가능한 아이디 입니다.'})
+
 
 # 회원가입
 @app.route('/register/insertDB', methods=["POST"])
@@ -71,10 +72,12 @@ def userRegister():
         "id": id_receive,
         "password": pw_hash,
         "birth": birth_receive,
-        "nickname": nickname_receive
+        "nickname": nickname_receive,
+        "favorite": []
     }
     db.users.insert_one(doc)
     return jsonify({'msg': '회원가입 완료'})
+
 
 #로그인
 @app.route('/user/login', methods=["POST"])
@@ -93,6 +96,7 @@ def userLogin():
         result = 'fail'
     return jsonify({'msg': result, 'data': user})
 
+
 #유저정보수정
 @app.route('/user/update', methods=["POST"])
 def userUpdate():
@@ -109,17 +113,35 @@ def userUpdate():
         "nickname": nick_recv
     }
 
-    db.users.update_one({'id':id_recv}, {"$set":doc})
+    db.users.update_one({'id': id_recv}, {"$set": doc})
     user = db.users.find_one({'id': id_recv}, {'_id': False})
 
     return jsonify({'msg': "업데이트 완료!", 'data': user})
+
+
+# 즐겨찾기 업데이트
+@app.route('/user/favorite', methods=["POST"])
+def favoriteUpdate():
+    id_recv = request.form['id_give']
+    favorite_recv = request.form['favorite_give']
+
+    user = db.users.find_one({'id': id_recv}, {'_id': False})
+    if favorite_recv in user['favorite']:
+        db.users.update_one({'id': id_recv}, {'$pull': {'favorite': favorite_recv}})
+        user = db.users.find_one({'id': id_recv}, {'_id': False})
+        return jsonify({'msg': "즐겨찾기 취소!", 'data': user})
+    else:
+        db.users.update_one({'id': id_recv}, {'$push': {'favorite': favorite_recv}})
+        user = db.users.find_one({'id': id_recv}, {'_id': False})
+        return jsonify({'msg': "즐겨찾기 등록!", 'data': user})
+
 
 # 산 정보 요청(임시-권영민)
 @app.route("/getMountain", methods=["POST"])
 def movie_get():
     mountain_name = request.form['name']
     mountain_addr = request.form['address']
-    mountain_list = list(db.tests.find({'address':{'$regex':mountain_addr}, 'name':mountain_name}, {'_id':False}))
+    mountain_list = list(db.tests.find({'address': {'$regex': mountain_addr}, 'name': mountain_name}, {'_id': False}))
     # for m in mountain_list:
     #     m['_id'] = str(m['_id'])
     return jsonify({'mountains': mountain_list})

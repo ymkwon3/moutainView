@@ -15,13 +15,13 @@ function checkValid(check) {
     var str = check;
     //문자열에 공백이 있는 경우
     var blank_pattern = /[\s]/g;
-    if (blank_pattern.test(str) == true) {
+    if (blank_pattern.test(str) === true) {
         id_span.innerText = '공백이 입력되었습니다.';
         str = null;
     }
     //특수문자가 있는 경우
     var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-    if (special_pattern.test(str) == true) {
+    if (special_pattern.test(str) === true) {
         id_span.innerText = '특수문자가 입력되었습니다.';
         str = null;
     }
@@ -69,7 +69,7 @@ function checkPasswordValid(check) {
 
     //문자열에 공백이 있는 경우
     var blank_pattern = /[\s]/g;
-    if (blank_pattern.test(str) == true) {
+    if (blank_pattern.test(str) === true) {
         pw_span.innerText = '공백이 입력되었습니다.'
         str = null;
     }
