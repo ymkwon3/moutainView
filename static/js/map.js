@@ -129,7 +129,7 @@ function placesSearchCB(data) {
             infoWindows.push(infowindow);
 
             temp_html =
-                `<div class="content-card flex-row-start" onclick="mountainInfo('s')">`;
+                `<div class="content-card flex-row-start" onclick="mountainDetail(keyword, '${addr}')">`;
 
             // 로그인이 됐을 경우
             if (window.localStorage.getItem('29_login') !== null) {
@@ -208,9 +208,9 @@ function init() {
     lineArr = [];
 }
 
-// todo: 산정보페이지를 띄울때 선택된 산 정보들을 불러옵니다.(필요시 id만 불러오기)
-function mountainInfo(data) {
-    console.log("데이터,", data)
+// 산 상세정보 페이지로 이동합니다.
+function mountainDetail(name, addr) {
+    window.location.href = '/mdetail?mName=' + name +'&addr=' + addr;
 }
 
 function getDistance(path) {

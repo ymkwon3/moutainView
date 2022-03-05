@@ -12,9 +12,6 @@ db = client.dbsparta
 
 app = Flask(__name__)
 
-@app.route('/test')
-def test():
-    return render_template('testLogin.html')
 
 # ---------- 페이지 라우팅 ---------- #
 @app.route('/')
@@ -40,6 +37,10 @@ def mountainInfo():
 @app.route('/mypage')
 def mypage():
     return render_template('mypage.html')
+
+@app.route('/mdetail')
+def mdetail():
+    return render_template('mdetail.html')
 
 
 # ---------- Ajax 요청 ---------- #

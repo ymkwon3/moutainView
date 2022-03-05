@@ -15,9 +15,6 @@
     <link rel="stylesheet" href="/static/css/login.css">
     <!--    Jquery -->
     <script src="/static/js/jquery-3.6.0.min.js"></script>
-    <!--    Kakao Map -->
-    <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0d9d093d51b30a990dd9be3a96f630ff&libraries=services,clusterer,drawing"></script>
     <!--    script -->
     <script src="/static/js/register.js"></script>
     <script src="/static/js/user.js"></script>
@@ -95,13 +92,13 @@
 
             temp_html =
             `
-            <div class="content-card flex-row-start">
+            <div class="content-card flex-row-start" onclick="mountainDetail('${splits[0]}', '${splits[1]}')">
                 <img alt="즐겨찾기" src="/static/img/favorite_checked.png" class="favorite_icon" onclick="setFavorite('${param}', 'mypage'); event.stopPropagation();">
                 <div class="flex-column-start">
                     <h3>${splits[0]}</h3>
                     <div class="comment">${splits[1]}</div>
                 </div>
-                <button class="positive-btn btn-40-40 content-icon" onclick="goMain('${splits[0]}')">지도</button>
+                <button class="positive-btn btn-40-40 content-icon" onclick="goMain('${splits[0]}'); event.stopPropagation();">지도</button>
             </div>
             `
             $('#favorite').append(temp_html);

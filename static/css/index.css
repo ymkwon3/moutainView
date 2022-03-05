@@ -36,6 +36,11 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--color);
 }
 
+input, label {
+    color: var(--color);
+    background-color: var(--background);
+}
+
 .main-container {
     width: 100vw;
     height: 100vh;
@@ -43,6 +48,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .main-contents {
     width: 100vw;
+    height: 100vh;
 }
 
 .flex-column {
@@ -55,7 +61,7 @@ h1, h2, h3, h4, h5, h6 {
 .flex-column-start {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: start;
 }
 
@@ -130,7 +136,7 @@ button {
 .btn-40-40 {
     width: 40px !important;
     height: 40px !important;
-    font-size: 12px !important;
+    font-size: 14px !important;
 }
 
 button:hover {
@@ -201,7 +207,7 @@ button:hover {
     width: 100%;
 }
 
-#find-mtn {
+.input-300 {
     max-width: 300px;
     width: 80%;
     height: 48px;
@@ -211,9 +217,7 @@ button:hover {
 
     outline: none;
     border: none;
-
-    color: var(--color);
-    background-color: var(--background);
+    border-bottom: 1px solid gray;
 }
 
 .content-card {
@@ -225,7 +229,13 @@ button:hover {
     margin: 15px 0;
     padding: 10px 10px;
 
+    transition: 0.1s;
+    cursor: pointer;
     color: var(--color);
+}
+
+.content-card:hover {
+    transform: scale(1.05);
 }
 
 .content-icon {
@@ -273,4 +283,19 @@ button:hover {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+#title {
+    margin-top: 150px;
+}
+
+#comment {
+    max-width: 600px;
+    width: 80%;
+    height: 60vh;
+    padding: 30px 0;
+    margin-top: 20px;
+    box-shadow: 0 0 4px gray;
+
+    overflow-y: scroll;
 }

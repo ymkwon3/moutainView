@@ -13,9 +13,6 @@
     <link rel="stylesheet" href="/static/css/index.css">
     <!--    Jquery -->
     <script src="/static/js/jquery-3.6.0.min.js"></script>
-    <!--    Kakao Map -->
-    <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{kakaomap}}&libraries=services,clusterer,drawing"></script>
 </head>
 <body>
 <div class="main-container flex-row">
@@ -26,39 +23,34 @@
         </div>
 
     </div>
-    <div class="main-contents flex-row">
-        <div class="flex-column">
-            <div class="flex-row input-container">
-                <label for="find-mtn"></label>
-                <input id="find-mtn" class="input-300" type="text" name="findMtn" placeholder="산명을 입력해주세요">
-                <button class="positive-btn" style="width: 100px" onclick="setMountain()">검색하기</button>
-            </div>
-            <div class="map-wrap">
-                <div id="map"></div>
-                <button id="my-position-btn" class="positive-btn btn-40-40" onclick="moveMyPosition()">내 위치</button>
-            </div>
+    <div class="flex-column main-contents" style="justify-content: start!important;">
+        <div id="title" class="flex-column">
         </div>
+        <div class="flex-row input-container">
+            <label for="write-comment"></label>
+            <input id="write-comment" class="input-300" type="text" name="findMtn" placeholder="이 산에 대한 글을 남겨주세요!">
+            <button class="positive-btn btn-40-40" style="width: 100px" onclick="setMountain()">등록!</button>
+        </div>
+        <div id="comment" class="flex-column">
 
-        <div id="mountain-list" class="flex-column list-container" style="justify-content: start!important; height: 70vh!important;">
-            <h1>검색 결과</h1>
         </div>
     </div>
 </div>
 <script src="/static/js/user.js"></script>
-<script src="/static/js/map.js"></script>
 <script>
     loginHandler();
+
     function loginHandler() {
         let side_navi = $('.side-navi');
         let navi_element;
-        if(window.localStorage.getItem('29_login') !== null) {
+        if (window.localStorage.getItem('29_login') !== null) {
             navi_element = `
                 <div class="flex-row">
                     <a href="/mypage">마이페이지</a>
                 </div>
                 <button class="negative-btn" onclick="userLogout()">로그아웃</button>
             `
-        }else {
+        } else {
             navi_element = `
                 <a href="login">
                     <button class="positive-btn">로그인</button>
@@ -68,9 +60,12 @@
         side_navi.append(navi_element);
 
         let mName = new URLSearchParams(location.search).get('mName');
-        if(mName !== null) {
-            setMountain(mName);
-        }
+        let addr = new URLSearchParams(location.search).get('addr');
+
+        temp_html = `<h1>${mName}</h1></br><h3>${addr}</h3>`
+        $('#title').append(temp_html)
+
+
     }
 </script>
 </body>
