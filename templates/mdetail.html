@@ -8,11 +8,12 @@
     <title>MountainView</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Poor+Story&display=swap" rel="stylesheet">
-
     <!--    CSS -->
     <link rel="stylesheet" href="/static/css/index.css">
     <!--    Jquery -->
     <script src="/static/js/jquery-3.6.0.min.js"></script>
+    <!-- js -->
+    <script src="/static/js/user.js"></script>
 </head>
 <body>
 <div class="main-container flex-row">
@@ -27,16 +28,11 @@
         <div id="title" class="flex-column">
         </div>
         <div class="flex-row input-container">
-            <label for="write-comment"></label>
-            <input id="write-comment" class="input-300" type="text" name="findMtn" placeholder="이 산에 대한 글을 남겨주세요!">
-            <button class="positive-btn btn-40-40" style="width: 100px" onclick="setMountain()">등록!</button>
         </div>
-        <div id="comment" class="flex-column">
-
+        <div id="comment" class="flex-column comment">
         </div>
     </div>
 </div>
-<script src="/static/js/user.js"></script>
 <script>
     loginHandler();
 
@@ -50,6 +46,13 @@
                 </div>
                 <button class="negative-btn" onclick="userLogout()">로그아웃</button>
             `
+
+            input_html = `
+                <label for="write-comment"></label>
+                <input id="write-comment" class="input-300" type="text" name="findMtn" placeholder="이 산에 대한 글을 남겨주세요!">
+                <button class="positive-btn btn-40-40" style="width: 100px" onclick="setComment()">등록!</button>
+            `
+            $('.input-container').append(input_html)
         } else {
             navi_element = `
                 <a href="login">
@@ -64,9 +67,8 @@
 
         temp_html = `<h1>${mName}</h1></br><h3>${addr}</h3>`
         $('#title').append(temp_html)
-
-
     }
+    getComment();
 </script>
 </body>
 </html>

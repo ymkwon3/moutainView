@@ -137,6 +137,43 @@ def favoriteUpdate():
         return jsonify({'msg': "즐겨찾기 등록!", 'data': user})
 
 
+# 코멘트 추가
+@app.route('/comment/insert', methods=["POST"])
+def setComment():
+    id_recv = request.form['id_give']
+    nickname_recv = request.form['nickname_give']
+    comment_recv = request.form['comment_give']
+    mName_recv = request.form['mName_give']
+    addr_recv = request.form['addr_give']
+
+    db.mountains.update_one({'id': mName_recv + " " + addr_recv}, {'$push': {'comment': {'nickname': nickname_recv, 'comment' : comment_recv}}})
+    db.users.update_one({'id': id_recv}, {'$push': {'comment': {'mName': mName_recv, 'addr': addr_recv, 'comment': comment_recv}}})
+    return jsonify({'msg': '댓글 등록'})
+
+
+# 코멘트 불러오기
+@app.route('/comment/get', methods=["POST"])
+def getComment():
+    m_recv = request.form['m_give']
+
+    m = db.mountains.find_one({'id': m_recv}, {'_id': False})
+    if m is None:
+        db.mountains.insert_one({'id': m_recv, 'comment': []})
+        m = db.mountains.find_one({'id': m_recv}, {'_id': False})
+
+    return jsonify({'data': m['comment']})
+
+
+# 코멘트 불러오기
+@app.route('/user/comment', methods=["POST"])
+def getUserComment():
+    id_recv = request.form['id_give']
+
+    user = db.users.find_one({'id': id_recv}, {'_id': False})
+
+    return jsonify({'data': user['comment']})
+
+
 # 산 정보 요청(임시-권영민)
 @app.route("/getMountain", methods=["POST"])
 def movie_get():
@@ -146,6 +183,7 @@ def movie_get():
     # for m in mountain_list:
     #     m['_id'] = str(m['_id'])
     return jsonify({'mountains': mountain_list})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

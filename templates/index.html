@@ -35,7 +35,7 @@
             </div>
             <div class="map-wrap">
                 <div id="map"></div>
-                <button id="my-position-btn" class="positive-btn btn-40-40" onclick="moveMyPosition()">내 위치</button>
+{#                <button id="my-position-btn" class="positive-btn btn-40-40" onclick="moveMyPosition()">내 위치</button>#}
             </div>
         </div>
 
@@ -47,6 +47,13 @@
 <script src="/static/js/user.js"></script>
 <script src="/static/js/map.js"></script>
 <script>
+    getLocation();
+    // 산 검색창 enter키 입력 이벤트입니다.
+    $('#find-mtn').keypress(function (e) {
+        if (e.which === 13) {
+            setMountain();
+        }
+    });
     loginHandler();
     function loginHandler() {
         let side_navi = $('.side-navi');

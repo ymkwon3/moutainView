@@ -1,66 +1,62 @@
-$(document).ready(() => {
-    getLocation();
-
-    // 산 검색창 enter키 입력 이벤트입니다.
-    $('#find-mtn').keypress(function (e) {
-        if (e.which === 13) {
-            setMountain();
-        }
-    });
-})
-
 let map = null; // 카카오맵
 let markers = []; // 마커객체들의 배열
-let userPosition = null; // 현재위치 좌표객체
+// let userPosition = null; // 현재위치 좌표객체
 let infoWindows = []; // 마커 토글 윈도우 배열
-let lineArr = [];
+// let lineArr = [];
 
 let keyword = ""; // 검색어
 
 function getLocation() {
-    navigator.geolocation.getCurrentPosition((position) => {
-        // 현재위치 좌표
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        let container = document.getElementById('map');
+    let container = document.getElementById('map');
 
-        // 지도 생성
-        map = new kakao.maps.Map(container, {
-            center: new kakao.maps.LatLng(latitude, longitude),
-            level: 8
-        });
-
-        // 마커가 표시될 좌표
-        userPosition = new kakao.maps.LatLng(latitude, longitude)
-
-        // 로컬 이미지 안불러와져서 일단 아무거나 넣었습니다 ㅠㅠ
-        // const imageSrc = "https://image.pngaaa.com/232/2702232-middle.png",
-        //     imageSize = new kakao.maps.Size(60, 60), // 마커이미지의 크기입니다
-        //     imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-        // const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
-
-        // 유저 마커 (현재위치)
-        const marker = new kakao.maps.Marker({
-            position: userPosition,
-            // image: markerImage
-        })
-
-        // 마커를 지도에 표시
-        marker.setMap(map)
-
-        let info_html = `<div class="flex-column info-window">내 위치</div>`
-
-        // 마커 클릭 시 표시할 윈도우 생성
-        var infowindow = new kakao.maps.InfoWindow({
-            content: info_html
-        })
-
-        // 클릭 시 생성한 윈도우 토글
-        kakao.maps.event.addListener(marker, 'click', makerListener(map, marker, infowindow));
-
-    }, function (error) {
-        console.error(error);
-    })
+    // 지도 생성
+    map = new kakao.maps.Map(container, {
+        center: new kakao.maps.LatLng(36.78470, 127.88009),
+        level: 13
+    });
+    // navigator.geolocation.getCurrentPosition((position) => {
+    //     // 현재위치 좌표
+    //     let latitude = position.coords.latitude;
+    //     let longitude = position.coords.longitude;
+    //     let container = document.getElementById('map');
+    //
+    //     // 지도 생성
+    //     map = new kakao.maps.Map(container, {
+    //         center: new kakao.maps.LatLng(latitude, longitude),
+    //         level: 8
+    //     });
+    //
+    //     // 마커가 표시될 좌표
+    //     userPosition = new kakao.maps.LatLng(latitude, longitude)
+    //
+    //     // 로컬 이미지 안불러와져서 일단 아무거나 넣었습니다 ㅠㅠ
+    //     // const imageSrc = "https://image.pngaaa.com/232/2702232-middle.png",
+    //     //     imageSize = new kakao.maps.Size(60, 60), // 마커이미지의 크기입니다
+    //     //     imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+    //     // const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+    //
+    //     // 유저 마커 (현재위치)
+    //     const marker = new kakao.maps.Marker({
+    //         position: userPosition,
+    //         // image: markerImage
+    //     })
+    //
+    //     // 마커를 지도에 표시
+    //     marker.setMap(map)
+    //
+    //     let info_html = `<div class="flex-column info-window">내 위치</div>`
+    //
+    //     // 마커 클릭 시 표시할 윈도우 생성
+    //     var infowindow = new kakao.maps.InfoWindow({
+    //         content: info_html
+    //     })
+    //
+    //     // 클릭 시 생성한 윈도우 토글
+    //     kakao.maps.event.addListener(marker, 'click', makerListener(map, marker, infowindow));
+    //
+    // }, function (error) {
+    //     console.error(error);
+    // })
 }
 
 // 입력값으로 함수 실행
@@ -102,19 +98,17 @@ function placesSearchCB(data) {
             markers.push(marker);
 
             // 현재 위치와 산의 위치를 선으로 연결
-            let pivot = new kakao.maps.Polyline({
-                map, // 선을 표시할 지도입니다
-                path: [userPosition], // 선을 구성하는 좌표 배열입니다
-                strokeWeight: 2, // 선의 두께입니다
-                strokeColor: "#db4040", // 선의 색깔입니다
-                strokeOpacity: .5, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-                strokeStyle: "solid", // 선의 스타일입니다
-            });
-
-            let path = pivot.getPath();
-            path.push(pos)
-            lineArr.push(pivot);
-
+            // let pivot = new kakao.maps.Polyline({
+            //     map, // 선을 표시할 지도입니다
+            //     path: [userPosition], // 선을 구성하는 좌표 배열입니다
+            //     strokeWeight: 2, // 선의 두께입니다
+            //     strokeColor: "#db4040", // 선의 색깔입니다
+            //     strokeOpacity: .5, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+            //     strokeStyle: "solid", // 선의 스타일입니다
+            // });
+            // let path = pivot.getPath();
+            // path.push(pos)
+            // lineArr.push(pivot);
             let info_html = `
                 <div class="flex-column info-window">
                     ${keyword}
@@ -125,7 +119,7 @@ function placesSearchCB(data) {
             const infowindow = new kakao.maps.InfoWindow({
                 content: info_html,
             })
-            kakao.maps.event.addListener(marker, 'click', makeOverListener(map, marker, infowindow, pivot, path));
+            kakao.maps.event.addListener(marker, 'click', makerListener(map, marker, infowindow));
             infoWindows.push(infowindow);
 
             temp_html =
@@ -149,7 +143,7 @@ function placesSearchCB(data) {
                         <h3>${keyword}</h3>
                         <div class="address">${addr}</div>
                     </div>
-                    <button class="positive-btn btn-40-40 content-icon" onclick="moveMap(${x}, ${y})">지도</button>
+                    <button class="positive-btn btn-40-40 content-icon" onclick="moveMap(${x}, ${y}); event.stopPropagation()">지도</button>
                 </div>`
 
             list.append(temp_html);
@@ -190,9 +184,9 @@ const moveMap = (x, y) => {
     map.panTo(pos);
 }
 
-const moveMyPosition = () => {
-    map.panTo(userPosition)
-}
+// const moveMyPosition = () => {
+//     map.panTo(userPosition)
+// }
 
 // 검색 전 데이터 초기화
 function init() {
@@ -201,16 +195,16 @@ function init() {
     }
     for (let i = 0; i < infoWindows.length; i++) {
         infoWindows[i].close();
-        lineArr[i].setMap(null);
+        // lineArr[i].setMap(null);
     }
     markers = [];
     infoWindows = [];
-    lineArr = [];
+    // lineArr = [];
 }
 
 // 산 상세정보 페이지로 이동합니다.
 function mountainDetail(name, addr) {
-    window.location.href = '/mdetail?mName=' + name +'&addr=' + addr;
+    window.location.href = '/mdetail?mName=' + name + '&addr=' + addr;
 }
 
 function getDistance(path) {
