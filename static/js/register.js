@@ -73,6 +73,7 @@ function checkPasswordValid(check) {
         pw_span.innerText = '공백이 입력되었습니다.'
         str = null;
     }
+    
     // 비밀번호가 너무 짧거나 긴 경우 (8 ~ 20)
     var id_length = /^[a-zA-z0-9]{8,15}$/;
     if (!id_length.test(str)) {
